@@ -1,4 +1,4 @@
-<coordinator-app name="EEARetention_Coordinator" frequency="${coordinatorFrequency}" start="${startTime}" end="${endTime}" timezone="${timeZone}" xmlns="uri:oozie:coordinator:0.1">
+<coordinator-app name="Application_Coordinator" frequency="${coordinatorFrequency}" start="${startTime}" end="${endTime}" timezone="${timeZone}" xmlns="uri:oozie:coordinator:0.1">
    <controls>
       <timeout>${timeOut}</timeout>
    </controls>
@@ -19,8 +19,8 @@
                <value>${queueName}</value>
             </property>
             <property>
-               <name>arkMaster</name>
-               <value>${arkMaster}</value>
+               <name>masterNode</name>
+               <value>${masterNode}</value>
             </property>
             <property>
                <name>appName</name>
