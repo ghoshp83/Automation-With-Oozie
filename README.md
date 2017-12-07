@@ -14,5 +14,7 @@ This application is to create an oozie job using oozie coordinators and workflow
 4. There are three files which will be used for oozie job configuration ->
 
    a) application_coordinator.properties (configuration file of oozie job)
+   
    b) application_coordinator.xml (coordinator file for execution frequency of oozie job)
+   
    c) application_workflow.xml (workflow file of oozie job)
