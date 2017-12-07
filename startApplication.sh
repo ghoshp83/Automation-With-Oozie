@@ -1,14 +1,19 @@
 #!/bin/bash
 ApplicationCoordinator=$1
-arkMaster=$(cat "$ApplicationCoordinator" | grep arkMaster | sed 's/.*=//')
+masterNode=$(cat "$ApplicationCoordinator" | grep masterNode | sed 's/.*=//')
+# Line 5 to 11 is related to cloudera installation. 
 cmHost=$(cat "$ApplicationCoordinator" | grep cmhost | sed 's/.*=//')
 cmCluster=$(cat "$ApplicationCoordinator" | grep cmcluster | sed 's/.*=//')
 oozieConfig=`python clouderaConfigOozie.py ${cmHost} "${cmCluster}"`
 export OOZIE_URL=$(echo ${oozieConfig} | awk '{print $1}')
 nameNode=$(echo ${oozieConfig} | awk '{print $2}')
 jobTracker=$(echo ${oozieConfig} | awk '{print $3}')
-# Put your environment's location for jks file
-export OOZIE_CLIENT_OPTS='-Djavax.net.ssl.trustStore=~/security/jks/truststore.jks'
+export OOZIE_CLIENT_OPTS='-Djavax.net.ssl.trustStore=/opt/cloudera/security/jks/truststore.jks'
+# If you have mapr installation then uncomment below lines 14 & 15 and comment lines 5 to 11 
+# For other installations, please refer Apache Oozie documentation -> How to configure OOZIE_URL
+# o=$(maprcli urls -name oozie | tail -1)
+# export OOZIE_URL=$(echo $o | sed 's/ //g')
+
 echo -e "***** Script starts here *****"
 if [[ $1 == *.properties ]];
 then
