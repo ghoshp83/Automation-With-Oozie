@@ -1,0 +1,43 @@
+<workflow-app name="EEARetention" xmlns="uri:oozie:workflow:0.4">
+    <start to="EEARetention"/>
+     <action name="EEARetention">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+                <configuration>
+                <property>
+                    <name>oozie.launcher.mapreduce.user.classpath.first</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>app.name</name>
+                    <value>${appName}</value>
+                </property>
+                <property>
+                    <name>main.class</name>
+                    <value>${appClass}</value>
+                </property>
+                 <property>
+                    <name>arguments</name>
+                    <value>-c extractSocAggDBLoadToFile_pipeline.xml -g savetofoldersfromSocAggDB-graph</value>
+                </property>
+                <property>
+                    <name>ark.master</name>
+                    <value>${arkMaster}</value>
+                </property>
+                <property>
+                    <name>max.sleeptime</name>
+                    <value>${maxSleepTime}</value>
+                </property>
+            </configuration>
+        <main-class>com.ericsson.eea.oozietasks.OozieTaskMonitor</main-class>
+                        <capture-output/>
+        </java>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+     <kill name="kill">
+       <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
