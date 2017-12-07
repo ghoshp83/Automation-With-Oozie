@@ -1,7 +1,7 @@
 # Automation-With-Oozie
 Application management, trigger and monitor through Oozie coordinator and workflows
 
-This application is to create an oozie job using oozie coordinators and workflows which will trigger/execute a java/scala/python application. Using oozie coordinators, we can automate an application management i.e. application start, stop, schedule and monitor. 
+This application is to create an oozie job using oozie coordinators and workflows which will trigger/execute a java/scala application. Using oozie coordinators, we can automate an application management i.e. application start, stop, schedule and monitor. 
 
 <B> How to use : </B>
 
@@ -18,3 +18,18 @@ This application is to create an oozie job using oozie coordinators and workflow
    b) application_coordinator.xml (coordinator file for execution frequency of oozie job)
    
    c) application_workflow.xml (workflow file of oozie job)
+
+5. There are five sections in application_coordinator.properties file. 
+
+      Section#1 contains distribution(cloudera/mapr) specific details. 
+      
+      Section#2 contains location of coordinator and workflow files. 
+      
+      Section#3 contains library file details. 
+      
+      Section#4 contains application specific details. 
+      
+      Section#5 contains timeline of oozie job.
+      
+   Currently in section#1, cloudera specific details are enabled and mapr specific details are disabled. One can toggle between them as      per their requirements.
+   
