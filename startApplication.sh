@@ -1,17 +1,18 @@
 #!/bin/bash
-OfflineRetentionCoordinator=$1
-arkMaster=$(cat "$OfflineRetentionCoordinator" | grep arkMaster | sed 's/.*=//')
-cmHost=$(cat "$OfflineRetentionCoordinator" | grep cmhost | sed 's/.*=//')
-cmCluster=$(cat "$OfflineRetentionCoordinator" | grep cmcluster | sed 's/.*=//')
+ApplicationCoordinator=$1
+arkMaster=$(cat "$ApplicationCoordinator" | grep arkMaster | sed 's/.*=//')
+cmHost=$(cat "$ApplicationCoordinator" | grep cmhost | sed 's/.*=//')
+cmCluster=$(cat "$ApplicationCoordinator" | grep cmcluster | sed 's/.*=//')
 oozieConfig=`python clouderaConfigOozie.py ${cmHost} "${cmCluster}"`
 export OOZIE_URL=$(echo ${oozieConfig} | awk '{print $1}')
 nameNode=$(echo ${oozieConfig} | awk '{print $2}')
 jobTracker=$(echo ${oozieConfig} | awk '{print $3}')
-export OOZIE_CLIENT_OPTS='-Djavax.net.ssl.trustStore=/opt/cloudera/security/jks/truststore.jks'
+# Put your environment's location for jks file
+export OOZIE_CLIENT_OPTS='-Djavax.net.ssl.trustStore=~/security/jks/truststore.jks'
 echo -e "***** Script starts here *****"
 if [[ $1 == *.properties ]];
 then
- echo "Properties File Path from argument: $OfflineRetentionCoordinator"
+ echo "Properties File Path from argument: $ApplicationCoordinator"
 else
 echo "Error: Coordinator properties file needs to be send to the script as argument"
 echo -e "***** Script ends here *****"
@@ -36,29 +37,29 @@ replaceStartTime="$replaceStartTime$newStartTime\r/"
 newEndDate=$(date -u --date='3 year' +%Y-%m-%dT23:00Z)
 replaceEndTime="$replaceEndTime$newEndDate\r/"
 
-$(sed -i -e $replaceEndTime -e $replaceStartTime -e $replaceNamenodeString -e $replaceJobtrackerString $OfflineRetentionCoordinator )
+$(sed -i -e $replaceEndTime -e $replaceStartTime -e $replaceNamenodeString -e $replaceJobtrackerString $ApplicationCoordinator )
 
-runningJobId=$(oozie jobs -jobtype coord 2>/dev/null | egrep 'EEARetention_Coordinator.*RUNNING' | grep -Eo '^[^ ]+')
+runningJobId=$(oozie jobs -jobtype coord 2>/dev/null | egrep 'Application_Coordinator.*RUNNING' | grep -Eo '^[^ ]+')
 
 if [ -z "$runningJobId" ];
 then
-        echo "EEA-Retention Coordinator is not running."
+        echo "Application Coordinator is not running."
 else
-        echo "EEA-Retention Coordinator is running(Job ID: $runningJobId). Killing it prior to restarting."
+        echo "Application Coordinator is running(Job ID: $runningJobId). Killing it prior to restarting."
         oozie job -kill $runningJobId  2>/dev/null
 fi
 
-runningJobId=$(oozie jobs -jobtype coord 2>/dev/null | egrep 'EEARetention_Coordinator.*PREP' | grep -Eo '^[^ ]+')
+runningJobId=$(oozie jobs -jobtype coord 2>/dev/null | egrep 'Application_Coordinator.*PREP' | grep -Eo '^[^ ]+')
 
 if [ -z "$runningJobId" ];
 then
-        echo "EEA-Retention coordinator is not under PREP status"
+        echo "Application coordinator is not under PREP status"
 else
-        echo "EEA-Retention coordinator is under PREP(Job ID: $runningJobId).Killing it."
+        echo "Application coordinator is under PREP(Job ID: $runningJobId).Killing it."
         oozie job -kill $runningJobId  2>/dev/null
 fi
 
 echo "Now Starting the new Coordinator job"
-oozie job -config $OfflineRetentionCoordinator -run
+oozie job -config $ApplicationCoordinator -run
 
 echo -e "***** Script ends here *****"
