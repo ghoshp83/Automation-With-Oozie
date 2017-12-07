@@ -33,3 +33,21 @@ This application is to create an oozie job using oozie coordinators and workflow
       
    Currently in section#1, cloudera specific details are enabled and mapr specific details are disabled. One can toggle between them as      per their requirements.
    
+   In section#4, unit of coordinatorFrequency is in minutes.
+   
+   All the dependent libraries(of section#3) are present in dependencies folder in this repository
+   
+ 6. application_coordinator.xml file will contain the scheduling details. It will take coordination frequency from
+    application_coordinator.properties file. This file will also refer to the calling application.
+    
+7. application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling
+   application.
+   
+8. Sample oozie commands are below ->
+   oozie jobs -jobtype coordinator [to check what all jobs are running]
+   oozie job -config <location_of_properties_file> –run [to start a oozie job]
+   oozie job -info <JOBID> [to see details of a job]
+   oozie job -kill <JOBID> [to kill a job]
+   oozie job -log <JOBID> [to check the log details of a job]   
+
+
