@@ -37,7 +37,7 @@ This application is to create an oozie job using oozie coordinators and workflow
    
    All the dependent libraries(of section#3) are present in dependencies folder in this repository
    
- 6. application_coordinator.xml file will contain the scheduling details. It will take coordination frequency from
+ 6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from
     application_coordinator.properties file. This file will also refer to the calling application.
     
 7. application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling
@@ -48,11 +48,11 @@ This application is to create an oozie job using oozie coordinators and workflow
 
    oozie jobs -jobtype coordinator [to check what all jobs are running]
    
-   oozie job -config <location_of_properties_file> –run [to start a oozie job]
+   oozie job -config {location_of_properties_file} –run [to start a oozie job]
    
-   oozie job -info <JOBID> [to see/monitor details of a job]
+   oozie job -info {JOBID} [to see/monitor details of a job]
    
-   oozie job -kill <JOBID> [to kill a job]
+   oozie job -kill {JOBID} [to kill a job]
    
-   oozie job -log <JOBID> [to check the log details of a job]   
+   oozie job -log {JOBID} [to check the log details of a job]   
 
