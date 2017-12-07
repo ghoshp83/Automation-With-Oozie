@@ -1,6 +1,6 @@
-<workflow-app name="EEARetention" xmlns="uri:oozie:workflow:0.4">
-    <start to="EEARetention"/>
-     <action name="EEARetention">
+<workflow-app name="TestApplication" xmlns="uri:oozie:workflow:0.4">
+    <start to="TestApplication"/>
+     <action name="TestApplication">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -19,19 +19,20 @@
                 </property>
                  <property>
                     <name>arguments</name>
-                    <value>-c extractSocAggDBLoadToFile_pipeline.xml -g savetofoldersfromSocAggDB-graph</value>
+                    <!-- If you have any arguments to pass in the calling class then put the required value in below value tag -->
+                    <value></value>
                 </property>
                 <property>
-                    <name>ark.master</name>
-                    <value>${arkMaster}</value>
+                    <name>masterNode</name>
+                    <value>${masterNode}</value>
                 </property>
                 <property>
                     <name>max.sleeptime</name>
                     <value>${maxSleepTime}</value>
                 </property>
-            </configuration>
-        <main-class>com.ericsson.eea.oozietasks.OozieTaskMonitor</main-class>
-                        <capture-output/>
+                </configuration>
+                <main-class>com.pralay.oozieactivities.OozieTaskMonitor</main-class>
+                <capture-output/>
         </java>
         <ok to="end"/>
         <error to="kill"/>
