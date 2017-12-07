@@ -5,5 +5,8 @@ This application is to create an oozie job using oozie coordinators and workflow
 
 <B> How to use : </B>
 
-1. To create the oozie job use this command -> bash startApplication.sh application_coordinator.properties
-2. To 
+1. To create/start the oozie job use this command -> bash startApplication.sh application_coordinator.properties
+2. To kill/stop the oozie job use this command -> bash stopApplication.sh
+3. Before starting an oozie job, one need to assign the OOZIE_URL like below ->
+   
+   export OOZIE_URL=http://testserver.pralay.org:11000/oozie
